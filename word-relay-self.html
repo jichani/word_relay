@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿵쿵따</title>
+</head>
+
+<body>
+    <div><span id="order">1</span>번째 참가자</div>
+    <div>제시어: <span id="word"></span></div>
+    <input type="text" name="" id="" />
+    <button>입력</button>
+
+    <script>
+        const number = parseInt(prompt('몇 명이 참가하나요?'), 10); // 마지막에 10을 적는 건 10진법임을 알려주기 위함
+
+        const $button = document.querySelector('button');
+        const $input = document.querySelector('input');
+        const $word = document.querySelector('#word');
+        const $order = document.querySelector('#order');
+
+        let word; // 제시어
+        let newWord; // 새로 입력한 단어
+
+        // number가 null이면 실행되지 않는다.
+        if (number) {
+
+            const onClickButton = () => {
+                // 제시어가 비어있는가 or (입력한 단어가 올바른가 and 세글자인가?)
+                if (!word || (word[word.length - 1] === newWord[0] && newWord.length === 3)) {
+                    // 예.
+                    word = newWord; // 입력한 단어가 제시어가 된다.
+                    $word.textContent = word;
+
+                    const order = Number($order.textContent); // 현재 순서
+
+                    // 다음 사람에게 순서를 넘긴다.
+                    if (order + 1 > number) {
+                        $order.textContent = 1;
+                    } else {
+                        $order.textContent = order + 1;
+                    }
+
+                    // 입력창을 비우고 커서를 둔다.
+                    $input.value = '';
+                    $input.focus();
+                }
+                // 아니요.
+                else {
+                    // 틀렸다고 표시한다.
+                    alert('틀렸습니다!');
+                    $input.value = '';
+                    $input.focus();
+                }
+            };
+
+            const onInput = (event) => {
+                newWord = event.target.value;
+            };
+
+            $button.addEventListener('click', onClickButton);
+            $input.addEventListener('input', onInput);
+
+        }
+
+    </script>
+</body>
+
+</html>
